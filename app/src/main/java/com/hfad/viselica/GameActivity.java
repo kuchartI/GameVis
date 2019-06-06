@@ -56,5 +56,6 @@ public class GameActivity extends AppCompatActivity {
         }
         ltrAdapt = new LetterAdapter(this);
         letters.setAdapter(ltrAdapt);
+
     }
 }
