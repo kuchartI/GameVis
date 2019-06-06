@@ -27,15 +27,12 @@ public class LetterAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        //create a button for the letter at this position in the alphabet
         Button letterBtn;
         if (convertView == null) {
-            //inflate the button layout
             letterBtn = (Button) letterInf.inflate(R.layout.letter, parent, false);
         } else {
             letterBtn = (Button) convertView;
         }
-        //set the text to this letter
         letterBtn.setText(letters[position]);
         return letterBtn;
     }
