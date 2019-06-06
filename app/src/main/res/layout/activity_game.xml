@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FF000000"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin" >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFFFF"
+        android:gravity="center"
+        android:paddingTop="15dp" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:contentDescription="@string/gallows"
+            android:layout_alignParentTop="true"
+            android:paddingLeft="0dp"
+            android:paddingTop="0dp"
+            android:src="@drawable/gallows" />
+
+        <ImageView
+            android:id="@+id/head"
+            android:layout_width="147dp"
+            android:layout_height="60dp"
+            android:layout_below="@+id/body"
+            android:layout_alignParentEnd="true"
+            android:contentDescription="@string/head"
+            android:layout_marginTop="-122dp"
+            android:layout_marginEnd="91dp"
+            android:paddingLeft="108dp"
+            android:paddingTop="23dp"
+            android:src="@drawable/head" />
+
+        <ImageView
+            android:id="@+id/body"
+            android:layout_width="126dp"
+            android:layout_height="133dp"
+            android:layout_alignEnd="@+id/arm1"
+            android:contentDescription="@string/body"
+            android:layout_marginEnd="-24dp"
+            android:paddingLeft="120dp"
+            android:paddingTop="53dp"
+            android:src="@drawable/body" />
+
+        <ImageView
+            android:id="@+id/arm1"
+            android:layout_width="128dp"
+            android:layout_height="132dp"
+            android:layout_alignTop="@+id/head"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="@string/arm"
+            android:paddingLeft="100dp"
+            android:paddingTop="60dp"
+            android:src="@drawable/arm1" />
+
+        <ImageView
+            android:id="@+id/arm2"
+            android:layout_width="154dp"
+            android:layout_height="123dp"
+            android:layout_alignTop="@+id/head"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="-1dp"
+            android:contentDescription="@string/arm"
+            android:layout_marginEnd="61dp"
+            android:paddingLeft="120dp"
+            android:paddingTop="60dp"
+            android:src="@drawable/arm2" />
+
+        <ImageView
+            android:id="@+id/leg1"
+            android:layout_width="128dp"
+            android:layout_height="132dp"
+            android:layout_below="@+id/arm2"
+            android:layout_alignEnd="@+id/head"
+            android:layout_marginTop="-114dp"
+            android:contentDescription="@string/leg"
+            android:layout_marginEnd="-22dp"
+            android:paddingLeft="101dp"
+            android:paddingTop="90dp"
+            android:src="@drawable/leg2" />
+
+        <ImageView
+            android:id="@+id/leg2"
+            android:layout_width="151dp"
+            android:layout_height="151dp"
+            android:layout_below="@+id/head"
+            android:layout_alignEnd="@+id/body"
+            android:layout_marginTop="-59dp"
+            android:contentDescription="@string/leg"
+            android:layout_marginEnd="7dp"
+            android:paddingLeft="121dp"
+            android:paddingTop="90dp"
+            android:src="@drawable/leg1" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/word"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:background="#FFFFFFFF"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="10dp" >
+    </LinearLayout>
+
+    <GridView
+        android:id="@+id/letters"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="5dp"
+        android:background="#FF000000"
+        android:horizontalSpacing="5dp"
+        android:numColumns="7"
+        android:padding="5dp"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="5dp" />
+</LinearLayout>
