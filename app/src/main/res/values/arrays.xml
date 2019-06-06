@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="words">
-        <item>KITTEN</item>
-        <item>COMPUTER</item>
-        <item>TABLET</item>
-        <item>SYSTEM</item>
-        <item>APPLICATION</item>
-        <item>INTERNET</item>
-        <item>STYLUS</item>
-        <item>ANDROID</item>
-        <item>KEYBOARD</item>
-        <item>SMARTPHONE</item>
+        <item>ЖОПА</item>
+        <item>КОМПОСТ</item>
+        <item>КАРУСЕЛЬ</item>
+        <item>АРТЕМГЕЙ</item>
+        <item>ДЖАНКО</item>
+        <item>ИЛЬЯЛОХ</item>
+        <item>ПЛОХАЯИГРА</item>
+        <item>ЧМЫ</item>
+        <item>ГЭГЭ</item>
+        <item>КАРУСЕЛЬ</item>
     </string-array>
 </resources>

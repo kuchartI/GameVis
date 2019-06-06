@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+
 import java.util.Random;
 
 public class GameActivity extends AppCompatActivity {
@@ -27,10 +28,11 @@ public class GameActivity extends AppCompatActivity {
     private GridView letters;
     private LetterAdapter ltrAdapt;
     private ImageView[] bodyParts;
-    private int numParts=6;
+    private int numParts = 6;
     private int currPart;
     private int numChars;
     private int numCorr;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,21 +76,22 @@ public class GameActivity extends AppCompatActivity {
         }
         ltrAdapt = new LetterAdapter(this);
         letters.setAdapter(ltrAdapt);
-        currPart=0;
-        numChars=currWord.length();
-        numCorr=0;
-        for(int p = 0; p < numParts; p++) {
+        currPart = 0;
+        numChars = currWord.length();
+        numCorr = 0;
+        for (int p = 0; p < numParts; p++) {
             bodyParts[p].setVisibility(View.INVISIBLE);
         }
     }
+
     public void letterPressed(View view) {
-        String ltr=((TextView)view).getText().toString();
+        String ltr = ((TextView) view).getText().toString();
         char letterChar = ltr.charAt(0);
         view.setEnabled(false);
         view.setBackgroundResource(R.drawable.letter_down);
         boolean correct = false;
-        for(int k = 0; k < currWord.length(); k++) {
-            if(currWord.charAt(k)==letterChar){
+        for (int k = 0; k < currWord.length(); k++) {
+            if (currWord.charAt(k) == letterChar) {
                 correct = true;
                 numCorr++;
                 charViews[k].setTextColor(Color.BLACK);
@@ -102,8 +105,8 @@ public class GameActivity extends AppCompatActivity {
 
 
                 AlertDialog.Builder winBuild = new AlertDialog.Builder(this);
-                winBuild.setTitle("Поздравляем");
-                winBuild.setMessage("Вы победили!\n\nОтвет:\n\n" + currWord);
+                winBuild.setTitle("Win!");
+                winBuild.setMessage("Ответ:\n\n" + currWord);
                 winBuild.setPositiveButton("Сыграем ещё?",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
@@ -126,23 +129,25 @@ public class GameActivity extends AppCompatActivity {
 
             bodyParts[currPart].setVisibility(View.VISIBLE);
             currPart++;
-        }else{
+        } else {
             disableBtns();
 
             AlertDialog.Builder loseBuild = new AlertDialog.Builder(this);
-            loseBuild.setTitle("Увы");
-            loseBuild.setMessage("Вы проиграли!\n\nБыло загадано:\n\n"+currWord);
+            loseBuild.setTitle("Lose");
+            loseBuild.setMessage("Было загадано:\n\n" + currWord);
             loseBuild.setPositiveButton("Сыграем ещё?",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             GameActivity.this.playGame();
-                        }});
+                        }
+                    });
 
             loseBuild.setNegativeButton("Выход",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             GameActivity.this.finish();
-                        }});
+                        }
+                    });
 
             loseBuild.show();
         }
@@ -154,5 +159,5 @@ public class GameActivity extends AppCompatActivity {
             letters.getChildAt(l).setEnabled(false);
         }
     }
-    }
+}
 
