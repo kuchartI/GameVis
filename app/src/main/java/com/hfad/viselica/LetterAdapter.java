@@ -12,7 +12,6 @@ public class LetterAdapter extends BaseAdapter {
     private LayoutInflater letterInf;
 
     public LetterAdapter(Context c) {
-        //setup adapter
         letters = new String[26];
         for (int a = 0; a < letters.length; a++) {
             letters[a] = "" + (char) (a + 'A');
