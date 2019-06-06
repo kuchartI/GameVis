@@ -12,9 +12,9 @@ public class LetterAdapter extends BaseAdapter {
     private LayoutInflater letterInf;
 
     public LetterAdapter(Context c) {
-        letters = new String[26];
+        letters = new String[32];
         for (int a = 0; a < letters.length; a++) {
-            letters[a] = "" + (char) (a + 'A');
+            letters[a] = "" + (char) (a + 'А');
         }
         letterInf = LayoutInflater.from(c);
     }
