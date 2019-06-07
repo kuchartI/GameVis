@@ -64,7 +64,7 @@ public class GameActivity extends AppCompatActivity {
         wordLayout.removeAllViews();
         for (int c = 0; c < currWord.length(); c++) {
             charViews[c] = new TextView(this);
-            charViews[c].setText("" + currWord.charAt(c));
+            charViews[c].setText(String.format("%s", currWord.charAt(c)));
 
             charViews[c].setLayoutParams(new LayoutParams
                     (LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
