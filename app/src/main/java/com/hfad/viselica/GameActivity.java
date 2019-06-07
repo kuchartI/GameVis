@@ -107,7 +107,7 @@ public class GameActivity extends AppCompatActivity {
                 AlertDialog.Builder winBuild = new AlertDialog.Builder(this);
                 winBuild.setTitle("Win!");
                 winBuild.setMessage("Ответ:\n\n" + currWord);
-                winBuild.setPositiveButton("Сыграем ещё?",
+                winBuild.setPositiveButton("Новая игра",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 GameActivity.this.playGame();
@@ -135,7 +135,7 @@ public class GameActivity extends AppCompatActivity {
             AlertDialog.Builder loseBuild = new AlertDialog.Builder(this);
             loseBuild.setTitle("Lose");
             loseBuild.setMessage("Было загадано:\n\n" + currWord);
-            loseBuild.setPositiveButton("Сыграем ещё?",
+            loseBuild.setPositiveButton("Новая игра",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             GameActivity.this.playGame();
