@@ -25,7 +25,7 @@ public class InputWordActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         Intent a = new Intent(this, GameActivity.class);
         if (et.getText().toString().matches("")) {
-            Toast.makeText(this, "Вы ничего не ввели", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Вы долбаеб", Toast.LENGTH_SHORT).show();
             return;
         } else {
             a.putExtra("text", et.getText().toString());
