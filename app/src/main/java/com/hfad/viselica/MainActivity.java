@@ -14,14 +14,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         Button playBtn = findViewById(R.id.playBtn);
         playBtn.setOnClickListener(this);
+        Button multiBtn = findViewById(R.id.multiBtn);
+        multiBtn.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.playBtn:
-                Intent intent = new Intent(MainActivity.this,GameActivity.class);
+                Intent intent = new Intent(MainActivity.this, GameActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.multiBtn:
+                Intent multiIntent =
+                        new Intent(MainActivity.this, InputWordActivity.class);
+                startActivity(multiIntent);
+                break;
         }
     }
 }
