@@ -7,4 +7,6 @@
     <string name="leg">A Leg</string>
     <string name="play">Одиночная игра</string>
     <string name="multiPlayer">Играть вдвоём</string>
+    <string name="button">Загадать слово</string>
+    <string name="editText">Введите слово которое хотите загадать</string>
 </resources>
