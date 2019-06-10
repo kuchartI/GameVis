@@ -57,7 +57,7 @@ public class GameActivity extends AppCompatActivity {
     private void playGame() {
         inventedWord = intent.getStringExtra("text").toUpperCase();
         String newWord = words[rand.nextInt(words.length)];
-        if (inventedWord == null) {
+        if (inventedWord == null ) {
             while (newWord.equals(currWord))
                 newWord = words[rand.nextInt(words.length)];
             inputOrWords = false;

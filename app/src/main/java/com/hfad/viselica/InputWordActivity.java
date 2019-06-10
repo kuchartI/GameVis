@@ -8,6 +8,7 @@ import android.text.Spanned;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class InputWordActivity extends AppCompatActivity implements View.OnClickListener {
     EditText et;
@@ -17,30 +18,21 @@ public class InputWordActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input_word);
         et = findViewById(R.id.editText);
-        et.setFilters(new InputFilter[] {
-                new InputFilter() {
-                    public CharSequence filter(CharSequence src, int start,
-                                               int end, Spanned dst, int dstart, int dend) {
-                        if(src.equals("")){
-                            return src;
-                        }
-                        if(src.toString().matches("[а-яА-Я]+")){
-                            return src;
-                        }
-                        return "";
-                    }
-                }
-        });
         Button button = findViewById(R.id.inputText);
         button.setOnClickListener(this);
     }
 
     public void onClick(View v) {
         Intent a = new Intent(this, GameActivity.class);
-        a.putExtra("text", et.getText().toString());
-        et.setText("");
-        startActivity(a);
-
+        if (et.getText().toString().matches("")) {
+            Toast.makeText(this, "Вы ничего не ввели", Toast.LENGTH_SHORT).show();
+            return;
+        } else {
+            a.putExtra("text", et.getText().toString());
+            et.setText("");
+            startActivity(a);
+        }
     }
 }
+
 
