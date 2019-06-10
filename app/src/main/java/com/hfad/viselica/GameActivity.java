@@ -18,10 +18,11 @@ import android.widget.ImageView;
 import java.util.Random;
 
 public class GameActivity extends AppCompatActivity {
+    private boolean inputOrWords;
     private String[] words;
     private Random rand;
-    private Intent intent;
     private String inventedWord;
+    private Intent intent;
     private String currWord;
     private LinearLayout wordLayout;
     private TextView[] charViews;
@@ -54,14 +55,18 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void playGame() {
-        String fName = intent.getStringExtra("text");
+        inventedWord = intent.getStringExtra("text").toUpperCase();
         String newWord = words[rand.nextInt(words.length)];
-        if (fName == null) {
+        if (inventedWord == null) {
             while (newWord.equals(currWord))
                 newWord = words[rand.nextInt(words.length)];
-
+            inputOrWords = false;
             currWord = newWord;
-        } else currWord = fName;
+        } else {
+            inputOrWords = true;
+            currWord = inventedWord;
+        }
+
 
         charViews = new TextView[currWord.length()];
         wordLayout.removeAllViews();
@@ -77,14 +82,17 @@ public class GameActivity extends AppCompatActivity {
 
             wordLayout.addView(charViews[c]);
         }
+
         ltrAdapt = new LetterAdapter(this);
         letters.setAdapter(ltrAdapt);
         currPart = 0;
         numChars = currWord.length();
         numCorr = 0;
+
         for (int p = 0; p < NUMPARTS; p++) {
             bodyParts[p].setVisibility(View.INVISIBLE);
         }
+
     }
 
     public void letterPressed(View view) {
@@ -112,7 +120,12 @@ public class GameActivity extends AppCompatActivity {
                 winBuild.setPositiveButton("Новая игра",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                GameActivity.this.playGame();
+                                if (!inputOrWords)
+                                    GameActivity.this.playGame();
+                                else {
+                                    inventedWord = null;
+                                    GameActivity.this.finish();
+                                }
                             }
                         }
                 );
@@ -120,7 +133,8 @@ public class GameActivity extends AppCompatActivity {
                 winBuild.setNegativeButton("Выход",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                GameActivity.this.finish();
+                                Intent intent = new Intent(GameActivity.this,MainActivity.class);
+                                startActivity(intent);
                             }
                         }
                 );
