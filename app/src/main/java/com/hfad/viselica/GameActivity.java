@@ -1,5 +1,6 @@
 package com.hfad.viselica;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.content.res.Resources;
@@ -19,7 +20,7 @@ import java.util.Random;
 public class GameActivity extends AppCompatActivity {
     private String[] words;
     private Random rand;
-    private Bundle text;
+    private Intent intent;
     private String inventedWord;
     private String currWord;
     private LinearLayout wordLayout;
@@ -39,8 +40,7 @@ public class GameActivity extends AppCompatActivity {
         Resources res = getResources();
         words = res.getStringArray(R.array.words);
         rand = new Random();
-        currWord = "";
-        Bundle bundle = getIntent().getExtras();
+        intent = getIntent();
         wordLayout = findViewById(R.id.word);
         letters = findViewById(R.id.letters);
         bodyParts = new ImageView[NUMPARTS];
@@ -54,12 +54,14 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void playGame() {
-
+        String fName = intent.getStringExtra("text");
         String newWord = words[rand.nextInt(words.length)];
+        if (fName == null) {
+            while (newWord.equals(currWord))
+                newWord = words[rand.nextInt(words.length)];
 
-        while (newWord.equals(currWord))
-            newWord = words[rand.nextInt(words.length)];
-        currWord = newWord;
+            currWord = newWord;
+        } else currWord = fName;
 
         charViews = new TextView[currWord.length()];
         wordLayout.removeAllViews();
@@ -103,7 +105,6 @@ public class GameActivity extends AppCompatActivity {
             if (numCorr == numChars) {
 
                 disableBtns();
-
 
                 AlertDialog.Builder winBuild = new AlertDialog.Builder(this);
                 winBuild.setTitle("Win!");

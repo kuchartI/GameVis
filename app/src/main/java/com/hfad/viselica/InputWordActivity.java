@@ -20,15 +20,9 @@ public class InputWordActivity extends AppCompatActivity implements View.OnClick
     }
 
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.inputText:
-                String s = et.getText().toString();
-                Bundle basket = new Bundle();
-                basket.putString("message", s);
-                Intent a = new Intent(InputWordActivity.this, GameActivity.class);
-                a.putExtras(basket);
-                startActivity(a);
-                break;
-        }
+        Intent a = new Intent(this, GameActivity.class);
+        a.putExtra("text", et.getText().toString());
+        startActivity(a);
     }
 }
+
