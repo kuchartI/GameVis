@@ -11,9 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.support.v4.app.NavUtils;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -22,13 +19,15 @@ import java.util.Random;
 public class GameActivity extends AppCompatActivity {
     private String[] words;
     private Random rand;
+    private Bundle text;
+    private String inventedWord;
     private String currWord;
     private LinearLayout wordLayout;
     private TextView[] charViews;
     private GridView letters;
     private LetterAdapter ltrAdapt;
     private ImageView[] bodyParts;
-    private int numParts = 6;
+    private final int NUMPARTS = 6;
     private int currPart;
     private int numChars;
     private int numCorr;
@@ -41,9 +40,10 @@ public class GameActivity extends AppCompatActivity {
         words = res.getStringArray(R.array.words);
         rand = new Random();
         currWord = "";
+        Bundle bundle = getIntent().getExtras();
         wordLayout = findViewById(R.id.word);
         letters = findViewById(R.id.letters);
-        bodyParts = new ImageView[numParts];
+        bodyParts = new ImageView[NUMPARTS];
         bodyParts[0] = findViewById(R.id.head);
         bodyParts[1] = findViewById(R.id.body);
         bodyParts[2] = findViewById(R.id.arm1);
@@ -54,6 +54,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void playGame() {
+
         String newWord = words[rand.nextInt(words.length)];
 
         while (newWord.equals(currWord))
@@ -79,7 +80,7 @@ public class GameActivity extends AppCompatActivity {
         currPart = 0;
         numChars = currWord.length();
         numCorr = 0;
-        for (int p = 0; p < numParts; p++) {
+        for (int p = 0; p < NUMPARTS; p++) {
             bodyParts[p].setVisibility(View.INVISIBLE);
         }
     }
@@ -125,7 +126,7 @@ public class GameActivity extends AppCompatActivity {
 
                 winBuild.show();
             }
-        } else if (currPart < numParts) {
+        } else if (currPart < NUMPARTS) {
 
             bodyParts[currPart].setVisibility(View.VISIBLE);
             currPart++;
