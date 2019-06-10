@@ -18,7 +18,7 @@
             android:id="@+id/editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/editText"/>
+            android:hint="@string/editText" />
 
         <Button
             android:id="@+id/inputText"
