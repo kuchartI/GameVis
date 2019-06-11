@@ -154,10 +154,15 @@ public class GameActivity extends AppCompatActivity {
             loseBuild.setPositiveButton("Новая игра",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            GameActivity.this.playGame();
+                            if (!inputOrWords)
+                                GameActivity.this.playGame();
+                            else {
+                                inventedWord = null;
+                                GameActivity.this.finish();
+                            }
                         }
-                    });
-
+                    }
+            );
             loseBuild.setNegativeButton("Выход",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {

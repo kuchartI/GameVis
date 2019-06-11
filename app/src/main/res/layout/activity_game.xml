@@ -4,70 +4,72 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FF000000"
+    android:gravity="bottom|center_horizontal"
     android:orientation="vertical"
-    android:weightSum="100"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin" >
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:weightSum="100">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="50"
-        android:background="#FFFFFFFF"
-        >
+        android:background="#FFFFFFFF">
 
         <ImageView
             android:id="@+id/gallows"
-            android:layout_width="330dp"
-            android:layout_height="330dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="25dp"
             android:contentDescription="@string/gallows"
             android:src="@drawable/gallows" />
 
         <ImageView
             android:id="@+id/head"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="35dp"
-            android:layout_marginEnd="76dp"
+            android:layout_width="26dp"
+            android:layout_height="27dp"
+            android:layout_alignTop="@+id/gallows"
+            android:layout_alignEnd="@+id/gallows"
+            android:layout_marginStart="251dp"
+            android:layout_marginTop="22dp"
+            android:layout_marginEnd="25dp"
             android:contentDescription="@string/head"
             android:src="@drawable/head" />
 
         <ImageView
             android:id="@+id/body"
-            android:layout_width="10dp"
+            android:layout_width="6dp"
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/head"
             android:layout_alignTop="@+id/head"
-            android:layout_marginStart="13dp"
-            android:layout_marginTop="14dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="-12dp"
             android:layout_marginBottom="-152dp"
             android:contentDescription="@string/body"
             android:src="@drawable/body" />
 
         <ImageView
             android:id="@+id/arm1"
-            android:layout_width="43dp"
-            android:layout_height="51dp"
+            android:layout_width="27dp"
+            android:layout_height="38dp"
             android:layout_alignStart="@+id/body"
             android:layout_alignTop="@+id/head"
-            android:layout_marginStart="6dp"
-            android:layout_marginTop="42dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="28dp"
             android:contentDescription="@string/arm"
             android:src="@drawable/arm1" />
 
         <ImageView
             android:id="@+id/arm2"
-            android:layout_width="36dp"
-            android:layout_height="58dp"
+            android:layout_width="24dp"
+            android:layout_height="40dp"
             android:layout_alignTop="@+id/head"
-            android:layout_marginTop="37dp"
+            android:layout_marginTop="26dp"
             android:layout_marginEnd="0dp"
             android:layout_toStartOf="@+id/arm1"
             android:contentDescription="@string/arm"
@@ -75,22 +77,22 @@
 
         <ImageView
             android:id="@+id/leg1"
-            android:layout_width="47dp"
-            android:layout_height="49dp"
+            android:layout_width="29dp"
+            android:layout_height="36dp"
             android:layout_alignTop="@+id/body"
             android:layout_alignEnd="@+id/arm2"
-            android:layout_marginTop="88dp"
-            android:layout_marginEnd="-9dp"
+            android:layout_marginTop="70dp"
+            android:layout_marginEnd="-4dp"
             android:contentDescription="@string/leg"
             android:src="@drawable/leg1" />
 
         <ImageView
             android:id="@+id/leg2"
-            android:layout_width="52dp"
-            android:layout_height="51dp"
+            android:layout_width="29dp"
+            android:layout_height="34dp"
             android:layout_alignTop="@+id/body"
-            android:layout_marginStart="-5dp"
-            android:layout_marginTop="85dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="73dp"
             android:layout_toEndOf="@+id/leg1"
             android:contentDescription="@string/leg"
             app:srcCompat="@drawable/leg2" />
@@ -105,16 +107,15 @@
         android:background="#FFFFFFFF"
         android:gravity="center"
         android:orientation="horizontal"
-        android:padding="10dp" >
-    </LinearLayout>
+        android:padding="10dp" />
 
     <GridView
         android:id="@+id/letters"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_weight="50"
         android:layout_gravity="center"
         android:layout_marginBottom="5dp"
+        android:layout_weight="50"
         android:background="#FF000000"
         android:horizontalSpacing="5dp"
         android:numColumns="7"
