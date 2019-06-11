@@ -166,7 +166,8 @@ public class GameActivity extends AppCompatActivity {
             loseBuild.setNegativeButton("Выход",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            GameActivity.this.finish();
+                            Intent intent = new Intent(GameActivity.this,MainActivity.class);
+                            startActivity(intent);
                         }
                     });
 
