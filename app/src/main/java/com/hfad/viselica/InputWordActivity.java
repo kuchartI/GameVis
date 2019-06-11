@@ -23,11 +23,14 @@ public class InputWordActivity extends AppCompatActivity implements View.OnClick
     }
 
     public void onClick(View v) {
-        Intent a = new Intent(InputWordActivity.this, GameActivity.class);
+        Intent a = new Intent(this, GameActivity.class);
+        if (et.getText().toString().matches("")) {
+            Toast.makeText(this, "Вы ввели пустую строку", Toast.LENGTH_SHORT).show();
+        } else {
             a.putExtra("text", et.getText().toString());
             et.setText("");
             startActivity(a);
-
+        }
     }
 }
 
