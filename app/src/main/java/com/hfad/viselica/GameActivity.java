@@ -1,5 +1,6 @@
 package com.hfad.viselica;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.content.res.Resources;
@@ -11,24 +12,24 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.support.v4.app.NavUtils;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
 import java.util.Random;
 
 public class GameActivity extends AppCompatActivity {
+    private boolean inputOrWords;
     private String[] words;
     private Random rand;
+    private String inventedWord;
+    private Intent intent;
     private String currWord;
     private LinearLayout wordLayout;
     private TextView[] charViews;
     private GridView letters;
     private LetterAdapter ltrAdapt;
     private ImageView[] bodyParts;
-    private int numParts = 6;
+    private final int NUMPARTS = 6;
     private int currPart;
     private int numChars;
     private int numCorr;
@@ -40,10 +41,10 @@ public class GameActivity extends AppCompatActivity {
         Resources res = getResources();
         words = res.getStringArray(R.array.words);
         rand = new Random();
-        currWord = "";
+        intent = getIntent();
         wordLayout = findViewById(R.id.word);
         letters = findViewById(R.id.letters);
-        bodyParts = new ImageView[numParts];
+        bodyParts = new ImageView[NUMPARTS];
         bodyParts[0] = findViewById(R.id.head);
         bodyParts[1] = findViewById(R.id.body);
         bodyParts[2] = findViewById(R.id.arm1);
@@ -54,11 +55,18 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void playGame() {
+        inventedWord = intent.getStringExtra("text").toUpperCase();
         String newWord = words[rand.nextInt(words.length)];
+        if (inventedWord == null ) {
+            while (newWord.equals(currWord))
+                newWord = words[rand.nextInt(words.length)];
+            inputOrWords = false;
+            currWord = newWord;
+        } else {
+            inputOrWords = true;
+            currWord = inventedWord;
+        }
 
-        while (newWord.equals(currWord))
-            newWord = words[rand.nextInt(words.length)];
-        currWord = newWord;
 
         charViews = new TextView[currWord.length()];
         wordLayout.removeAllViews();
@@ -74,14 +82,17 @@ public class GameActivity extends AppCompatActivity {
 
             wordLayout.addView(charViews[c]);
         }
+
         ltrAdapt = new LetterAdapter(this);
         letters.setAdapter(ltrAdapt);
         currPart = 0;
         numChars = currWord.length();
         numCorr = 0;
-        for (int p = 0; p < numParts; p++) {
+
+        for (int p = 0; p < NUMPARTS; p++) {
             bodyParts[p].setVisibility(View.INVISIBLE);
         }
+
     }
 
     public void letterPressed(View view) {
@@ -103,14 +114,18 @@ public class GameActivity extends AppCompatActivity {
 
                 disableBtns();
 
-
                 AlertDialog.Builder winBuild = new AlertDialog.Builder(this);
                 winBuild.setTitle("Win!");
                 winBuild.setMessage("Ответ:\n\n" + currWord);
                 winBuild.setPositiveButton("Новая игра",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                GameActivity.this.playGame();
+                                if (!inputOrWords)
+                                    GameActivity.this.playGame();
+                                else {
+                                    inventedWord = null;
+                                    GameActivity.this.finish();
+                                }
                             }
                         }
                 );
@@ -118,14 +133,15 @@ public class GameActivity extends AppCompatActivity {
                 winBuild.setNegativeButton("Выход",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                GameActivity.this.finish();
+                                Intent intent = new Intent(GameActivity.this,MainActivity.class);
+                                startActivity(intent);
                             }
                         }
                 );
 
                 winBuild.show();
             }
-        } else if (currPart < numParts) {
+        } else if (currPart < NUMPARTS) {
 
             bodyParts[currPart].setVisibility(View.VISIBLE);
             currPart++;
