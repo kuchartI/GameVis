@@ -1,14 +1,13 @@
 package com.hfad.viselica;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.InputFilter;
-import android.text.Spanned;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 
 public class InputWordActivity extends AppCompatActivity implements View.OnClickListener {
     EditText et;
@@ -24,10 +23,11 @@ public class InputWordActivity extends AppCompatActivity implements View.OnClick
 
     public void onClick(View v) {
         Intent a = new Intent(this, GameActivity.class);
-        if (et.getText().toString().matches("")) {
+        String s = et.getText().toString();
+        if (s.matches((""))) {
             Toast.makeText(this, "Вы ввели пустую строку", Toast.LENGTH_SHORT).show();
         } else {
-            a.putExtra("text", et.getText().toString());
+            a.putExtra("text", s);
             et.setText("");
             startActivity(a);
         }
