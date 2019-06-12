@@ -9,4 +9,8 @@
     <string name="multiPlayer">Играть вдвоём</string>
     <string name="button">Загадать слово</string>
     <string name="editText">Введите слово которое хотите загадать</string>
+    <string name="login">Логин</string>
+    <string name="signIn">Введите игровой никнейм</string>
+    <string name="vxod">Вход</string>
+
 </resources>

@@ -19,7 +19,7 @@ import java.util.Random;
 
 public class GameActivity extends AppCompatActivity {
     private boolean inputOrWords;
-    private String[] words;
+    private String[] words; //model
     private Random rand;
     private String inventedWord;
     private Intent intent;
@@ -66,7 +66,6 @@ public class GameActivity extends AppCompatActivity {
             inputOrWords = true;
             currWord = inventedWord.toUpperCase();
         }
-
 
         charViews = new TextView[currWord.length()];
         wordLayout.removeAllViews();
