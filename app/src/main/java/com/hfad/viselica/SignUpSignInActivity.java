@@ -1,6 +1,7 @@
 package com.hfad.viselica;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,6 +31,20 @@ public class SignUpSignInActivity extends AppCompatActivity implements View.OnCl
         SQLiteDatabase sqLiteDatabase = dataBase.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
+        Cursor cursor =
+                sqLiteDatabase.query(DataBase.TABLE_NAME, null, null, null, null, null, null);
+        if (cursor.moveToFirst()) {
+            try {
+                cursor.getColumnIndexOrThrow(login);
+            } catch (Exception e) {
+                contentValues.put(DataBase.KEY_NAME, login);
+                contentValues.put(DataBase.KEY_SCORE, "0");
 
+                sqLiteDatabase.insert(DataBase.TABLE_NAME, null, contentValues);
+            }
+        }
+        cursor.close();
+        dataBase.close();
     }
+
 }
