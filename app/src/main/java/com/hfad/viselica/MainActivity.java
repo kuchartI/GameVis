@@ -16,6 +16,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         playBtn.setOnClickListener(this);
         Button multiBtn = findViewById(R.id.multiBtn);
         multiBtn.setOnClickListener(this);
+        Button login = findViewById(R.id.login);
+        login.setOnClickListener(this);
     }
 
     @Override
@@ -29,6 +31,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent multiIntent =
                         new Intent(MainActivity.this, InputWordActivity.class);
                 startActivity(multiIntent);
+                break;
+            case R.id.login:
+                Intent intentLogin =
+                        new Intent(MainActivity.this, SignUpSignInActivity.class);
+                startActivity(intentLogin);
                 break;
         }
     }
