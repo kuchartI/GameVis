@@ -12,5 +12,5 @@
     <string name="login">Логин</string>
     <string name="signIn">Введите игровой никнейм</string>
     <string name="vxod">Вход</string>
-
+    <string name="records">Рекорды</string>
 </resources>
