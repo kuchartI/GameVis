@@ -1,6 +1,9 @@
 package com.hfad.viselica;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.content.res.Resources;
@@ -19,10 +22,12 @@ import java.util.Random;
 
 public class GameActivity extends AppCompatActivity {
     private boolean inputOrWords;
+    private DataBase dataBase;
     private String[] words; //model
     private Random rand;
     private String inventedWord;
-    private Intent intent;
+    private String userName;
+    private int userCounter;
     private String currWord;
     private LinearLayout wordLayout;
     private TextView[] charViews;
@@ -41,9 +46,9 @@ public class GameActivity extends AppCompatActivity {
         Resources res = getResources();
         words = res.getStringArray(R.array.words);
         rand = new Random();
-        intent = getIntent();
         wordLayout = findViewById(R.id.word);
         letters = findViewById(R.id.letters);
+        userName = getIntent().getStringExtra("userName");
         bodyParts = new ImageView[NUMPARTS];
         bodyParts[0] = findViewById(R.id.head);
         bodyParts[1] = findViewById(R.id.body);
@@ -55,7 +60,8 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void playGame() {
-        inventedWord = intent.getStringExtra("text");
+        inventedWord = getIntent().getStringExtra("text");
+
         String newWord = words[rand.nextInt(words.length)];
         if (inventedWord == null ) {
             while (newWord.equals(currWord))
@@ -110,7 +116,12 @@ public class GameActivity extends AppCompatActivity {
         if (correct) {
 
             if (numCorr == numChars) {
-
+                SQLiteDatabase sqLiteDatabase = dataBase.getWritableDatabase();
+                ContentValues contentValues = new ContentValues();
+                Cursor cursor =
+                        sqLiteDatabase.query(DataBase.TABLE_NAME, null, null, null, null, null, null);
+                userCounter =
+                        Integer.parseInt(cursor.getString(cursor.getColumnIndex(DataBase.KEY_SCORE)));
                 disableBtns();
 
                 AlertDialog.Builder winBuild = new AlertDialog.Builder(this);
