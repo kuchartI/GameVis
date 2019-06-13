@@ -16,6 +16,7 @@ public class SignUpSignInActivity extends AppCompatActivity implements View.OnCl
     DataBase dataBase;
     EditText editText;
     Button playBtn;
+    Boolean firstinbase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,31 +30,40 @@ public class SignUpSignInActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
+        String login = editText.getText().toString();
+
+        SQLiteDatabase sqLiteDatabase = dataBase.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
         switch (v.getId()) {
             case R.id.inputLogin:
-            String login = editText.getText().toString();
-            SQLiteDatabase sqLiteDatabase = dataBase.getWritableDatabase();
-            ContentValues contentValues = new ContentValues();
 
-            Cursor cursor =
-                    sqLiteDatabase.query(DataBase.TABLE_NAME, null, null, null, null, null, null);
-            if (cursor.moveToFirst()) {
-                while(cursor.moveToNext())
+                Cursor cursor =
+                        sqLiteDatabase.query(DataBase.TABLE_NAME, null, null, null, null, null, null);
 
-                try {
-                    cursor.getColumnIndexOrThrow(login);
-                } catch (Exception e) {
+                if (cursor.moveToFirst()) {
+                    while (cursor.moveToNext()) {
+                        if (cursor.getString(cursor.getColumnIndex(DataBase.KEY_NAME)) == login) {
+                            Intent intent = new Intent(this, GameActivity.class);
+                            startActivity(intent);
+                        }
+                    }
                     contentValues.put(DataBase.KEY_NAME, login);
                     contentValues.put(DataBase.KEY_SCORE, "0");
-
                     sqLiteDatabase.insert(DataBase.TABLE_NAME, null, contentValues);
-                    Intent intent = new Intent(this,GameActivity.class);
-                    startActivity(intent);
-                }
-            }
-            cursor.close();
-            dataBase.close();
 
+                    int idLogin = cursor.getColumnIndex(DataBase.KEY_NAME);
+                    int idScore = cursor.getColumnIndex(DataBase.KEY_SCORE);
+
+                    Log.d("mLog", "Login = " + cursor.getInt(idLogin) + " score = " + cursor.getInt(idScore));
+                }
+                cursor.close();
         }
+        dataBase.close();
     }
+    // sqLiteDatabase.delete(DataBase.TABLE_NAME, null, null);
 }
+
+
+
+
+
