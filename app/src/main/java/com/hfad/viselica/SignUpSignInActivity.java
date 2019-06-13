@@ -13,7 +13,7 @@ import android.widget.EditText;
 
 public class SignUpSignInActivity extends AppCompatActivity implements View.OnClickListener {
 
-    DataBase dataBase;
+     private DataBase dataBase;
     EditText editText;
     Button playBtn;
     Boolean firstinBase = true;
@@ -47,6 +47,7 @@ public class SignUpSignInActivity extends AppCompatActivity implements View.OnCl
                         if (cursor.getString(cursor.getColumnIndex(DataBase.KEY_NAME)).equals(login)) {
                             Intent intent = new Intent(this, GameActivity.class);
                             firstinBase = false;
+                            intent.putExtra("index",cursor.getString(cursor.getColumnIndex(DataBase.KEY_ID)) );
                             intent.putExtra("userName", login);
                             editText.setText("");
                             startActivity(intent);
@@ -63,7 +64,6 @@ public class SignUpSignInActivity extends AppCompatActivity implements View.OnCl
                     sqLiteDatabase.insert(DataBase.TABLE_NAME, null, contentValues);
                 }
                 firstinBase = true;
-                sqLiteDatabase.delete(DataBase.TABLE_NAME, null, null);
                 cursor.close();
         }
         dataBase.close();
