@@ -12,7 +12,7 @@ public class DataBase extends SQLiteOpenHelper {
 
     public static final String KEY_ID = "_id";
     public static final String KEY_NAME = "Users";
-    public static final String KEY_SCORE = "scrore";
+    public static final String KEY_SCORE = "Score";
 
     public DataBase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -22,7 +22,7 @@ public class DataBase extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table " + TABLE_NAME + "(" + KEY_ID +
-                " integer primary key," + KEY_NAME + " text," + KEY_SCORE + " text" + ")");
+                " integer primary key," + KEY_NAME + " text," + KEY_SCORE + " integer" + ")");
     }
 
     @Override
