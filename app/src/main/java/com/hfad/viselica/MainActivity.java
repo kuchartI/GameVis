@@ -18,6 +18,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         multiBtn.setOnClickListener(this);
         Button login = findViewById(R.id.login);
         login.setOnClickListener(this);
+        Button records = findViewById(R.id.login);
+        records.setOnClickListener(this);
+
     }
 
     @Override
@@ -36,6 +39,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent intentLogin =
                         new Intent(MainActivity.this, SignUpSignInActivity.class);
                 startActivity(intentLogin);
+                break;
+            case R.id.records:
+                Intent intentRecords =
+                        new Intent(MainActivity.this, RecordActivity.class);
+                startActivity(intentRecords);
                 break;
         }
     }
