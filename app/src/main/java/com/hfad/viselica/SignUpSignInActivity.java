@@ -16,7 +16,7 @@ public class SignUpSignInActivity extends AppCompatActivity implements View.OnCl
     DataBase dataBase;
     EditText editText;
     Button playBtn;
-    Boolean firstinbase;
+    Boolean firstinBase = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,26 +36,31 @@ public class SignUpSignInActivity extends AppCompatActivity implements View.OnCl
         ContentValues contentValues = new ContentValues();
         switch (v.getId()) {
             case R.id.inputLogin:
-
                 Cursor cursor =
                         sqLiteDatabase.query(DataBase.TABLE_NAME, null, null, null, null, null, null);
-
                 if (cursor.moveToFirst()) {
-                    while (cursor.moveToNext()) {
-                        if (cursor.getString(cursor.getColumnIndex(DataBase.KEY_NAME)) == login) {
+                    do {
+                        Log.d("wLog", "ID= " + cursor.getInt(cursor.getColumnIndex(DataBase.KEY_ID))
+                                + " s " + cursor.getString(cursor.getColumnIndex(DataBase.KEY_NAME))
+                                + " SCORE " + cursor.getString(cursor.getColumnIndex(DataBase.KEY_SCORE)) +
+                                cursor.getCount());
+                        if (cursor.getString(cursor.getColumnIndex(DataBase.KEY_NAME)).equals(login)) {
                             Intent intent = new Intent(this, GameActivity.class);
+                            firstinBase = false;
                             startActivity(intent);
                         }
+                    } while (cursor.moveToNext());
+                    if (firstinBase) {
+                        contentValues.put(DataBase.KEY_NAME, login);
+                        contentValues.put(DataBase.KEY_SCORE, "0");
+                        sqLiteDatabase.insert(DataBase.TABLE_NAME, null, contentValues);
                     }
+                } else {
                     contentValues.put(DataBase.KEY_NAME, login);
                     contentValues.put(DataBase.KEY_SCORE, "0");
                     sqLiteDatabase.insert(DataBase.TABLE_NAME, null, contentValues);
-
-                    int idLogin = cursor.getColumnIndex(DataBase.KEY_NAME);
-                    int idScore = cursor.getColumnIndex(DataBase.KEY_SCORE);
-
-                    Log.d("mLog", "Login = " + cursor.getInt(idLogin) + " score = " + cursor.getInt(idScore));
                 }
+                firstinBase = true;
                 cursor.close();
         }
         dataBase.close();
