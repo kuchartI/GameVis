@@ -24,17 +24,16 @@ import java.util.Random;
 public class GameActivity extends AppCompatActivity {
     private boolean inputOrWords;
     private DataBase dataBase2;
+    private Users users;
+    private BodyViselica bodyViselica;
     private String[] words; //model
     private Random rand;
     private String inventedWord;
-    private String userName;
-    private String userIndex;
     private int userCounter;
     private String currWord;
     private LinearLayout wordLayout;
     private TextView[] charViews;
     private GridView letters;
-    private LetterAdapter ltrAdapt;
     private ImageView[] bodyParts;
     private final int NUMPARTS = 6;
     private int currPart;
@@ -51,15 +50,12 @@ public class GameActivity extends AppCompatActivity {
         wordLayout = findViewById(R.id.word);
         letters = findViewById(R.id.letters);
         dataBase2 = new DataBase(this);
-        userName = getIntent().getStringExtra("userName");
-        userIndex = getIntent().getStringExtra("index");
-        bodyParts = new ImageView[NUMPARTS];
-        bodyParts[0] = findViewById(R.id.head);
-        bodyParts[1] = findViewById(R.id.body);
-        bodyParts[2] = findViewById(R.id.arm1);
-        bodyParts[3] = findViewById(R.id.arm2);
-        bodyParts[4] = findViewById(R.id.leg1);
-        bodyParts[5] = findViewById(R.id.leg2);
+        String userName = getIntent().getStringExtra("userName");
+        String userIndex = getIntent().getStringExtra("index");
+        users = new Users(userName, userIndex);
+        bodyParts = new ImageView[]{findViewById(R.id.head), findViewById(R.id.body)
+                , findViewById(R.id.arm1), findViewById(R.id.arm2), findViewById(R.id.leg1)
+                , findViewById(R.id.leg2)};
         playGame();
     }
 
@@ -92,13 +88,14 @@ public class GameActivity extends AppCompatActivity {
             wordLayout.addView(charViews[c]);
         }
 
-        ltrAdapt = new LetterAdapter(this);
+        LetterAdapter ltrAdapt = new LetterAdapter(this);
         letters.setAdapter(ltrAdapt);
         currPart = 0;
         numChars = currWord.length();
         numCorr = 0;
 
         for (int p = 0; p < NUMPARTS; p++) {
+
             bodyParts[p].setVisibility(View.INVISIBLE);
         }
 
@@ -122,18 +119,18 @@ public class GameActivity extends AppCompatActivity {
             ContentValues contentValues = new ContentValues();
             Cursor cursor =
                     sqLiteDatabase.query(DataBase.TABLE_NAME, null, null, null, null, null, null);
-            cursor.moveToPosition(Integer.parseInt(userIndex) - 1);
-            Log.d("ssssssssssssssss", "" + userIndex +
+            cursor.moveToPosition(Integer.parseInt(users.userIndex) - 1);
+            Log.d("ssssssssssssssss", "" + users.userIndex +
                     cursor.getString(cursor.getColumnIndex(DataBase.KEY_SCORE)));
 
             if (numCorr == numChars) {
                 userCounter =
                         Integer.parseInt(cursor.getString(cursor.getColumnIndex(DataBase.KEY_SCORE)));
                 userCounter++;
-                contentValues.put(DataBase.KEY_NAME, userName);
+                contentValues.put(DataBase.KEY_NAME, users.userName);
                 contentValues.put(DataBase.KEY_SCORE, userCounter);
-                sqLiteDatabase.update(DataBase.TABLE_NAME,contentValues,
-                        DataBase.KEY_ID+"= ?",new String[]{userIndex});
+                sqLiteDatabase.update(DataBase.TABLE_NAME, contentValues,
+                        DataBase.KEY_ID + "= ?", new String[]{users.userIndex});
                 disableBtns();
 
                 AlertDialog.Builder winBuild = new AlertDialog.Builder(this);
@@ -162,9 +159,9 @@ public class GameActivity extends AppCompatActivity {
                 );
 
                 winBuild.show();
-            } cursor.close();
-        }
-        else if (currPart < NUMPARTS) {
+            }
+            cursor.close();
+        } else if (currPart < NUMPARTS) {
 
             bodyParts[currPart].setVisibility(View.VISIBLE);
             currPart++;
