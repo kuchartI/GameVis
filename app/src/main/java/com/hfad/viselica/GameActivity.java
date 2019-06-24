@@ -47,15 +47,18 @@ public class GameActivity extends AppCompatActivity {
         Resources res = getResources();
         words = res.getStringArray(R.array.words);
         rand = new Random();
+
         wordLayout = findViewById(R.id.word);
         letters = findViewById(R.id.letters);
+
         dataBase2 = new DataBase(this);
         String userName = getIntent().getStringExtra("userName");
         String userIndex = getIntent().getStringExtra("index");
         users = new Users(userName, userIndex);
-        bodyParts = new ImageView[]{findViewById(R.id.head), findViewById(R.id.body)
-                , findViewById(R.id.arm1), findViewById(R.id.arm2), findViewById(R.id.leg1)
-                , findViewById(R.id.leg2)};
+        bodyParts = new ImageView[]{findViewById(R.id.head),
+                findViewById(R.id.body), findViewById(R.id.arm1),
+                findViewById(R.id.arm2), findViewById(R.id.leg1),
+                findViewById(R.id.leg2)};
         playGame();
     }
 
@@ -95,10 +98,8 @@ public class GameActivity extends AppCompatActivity {
         numCorr = 0;
 
         for (int p = 0; p < NUMPARTS; p++) {
-
             bodyParts[p].setVisibility(View.INVISIBLE);
         }
-
     }
 
     public void letterPressed(View view) {
