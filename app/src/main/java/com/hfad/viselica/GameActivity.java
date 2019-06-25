@@ -25,8 +25,7 @@ public class GameActivity extends AppCompatActivity {
     private boolean inputOrWords;
     private DataBase dataBase2;
     private Users users;
-    private BodyViselica bodyViselica;
-    private String[] words; //model
+    private String[] words;
     private Random rand;
     private String inventedWord;
     private int userCounter;
@@ -55,17 +54,13 @@ public class GameActivity extends AppCompatActivity {
         String userName = getIntent().getStringExtra("userName");
         String userIndex = getIntent().getStringExtra("index");
         users = new Users(userName, userIndex);
-        bodyParts = new ImageView[]{findViewById(R.id.head),
-                findViewById(R.id.body), findViewById(R.id.arm1),
-                findViewById(R.id.arm2), findViewById(R.id.leg1),
-                findViewById(R.id.leg2)};
         playGame();
     }
 
     private void playGame() {
         inventedWord = getIntent().getStringExtra("text");
-
         String newWord = words[rand.nextInt(words.length)];
+
         if (inventedWord == null) {
             while (newWord.equals(currWord))
                 newWord = words[rand.nextInt(words.length)];
@@ -97,6 +92,11 @@ public class GameActivity extends AppCompatActivity {
         numChars = currWord.length();
         numCorr = 0;
 
+        bodyParts = new ImageView[]{findViewById(R.id.head),
+                findViewById(R.id.body), findViewById(R.id.arm1),
+                findViewById(R.id.arm2), findViewById(R.id.leg1),
+                findViewById(R.id.leg2)};
+
         for (int p = 0; p < NUMPARTS; p++) {
             bodyParts[p].setVisibility(View.INVISIBLE);
         }
@@ -120,18 +120,18 @@ public class GameActivity extends AppCompatActivity {
             ContentValues contentValues = new ContentValues();
             Cursor cursor =
                     sqLiteDatabase.query(DataBase.TABLE_NAME, null, null, null, null, null, null);
-            cursor.moveToPosition(Integer.parseInt(users.userIndex) - 1);
-            Log.d("ssssssssssssssss", "" + users.userIndex +
+            cursor.moveToPosition(Integer.parseInt(users.getUserIndex()) - 1);
+            Log.d("ssssssssssssssss", "" + users.getUserIndex() +
                     cursor.getString(cursor.getColumnIndex(DataBase.KEY_SCORE)));
 
             if (numCorr == numChars) {
                 userCounter =
                         Integer.parseInt(cursor.getString(cursor.getColumnIndex(DataBase.KEY_SCORE)));
                 userCounter++;
-                contentValues.put(DataBase.KEY_NAME, users.userName);
+                contentValues.put(DataBase.KEY_NAME, users.getUserName());
                 contentValues.put(DataBase.KEY_SCORE, userCounter);
                 sqLiteDatabase.update(DataBase.TABLE_NAME, contentValues,
-                        DataBase.KEY_ID + "= ?", new String[]{users.userIndex});
+                        DataBase.KEY_ID + "= ?", new String[]{users.getUserIndex()});
                 disableBtns();
 
                 AlertDialog.Builder winBuild = new AlertDialog.Builder(this);

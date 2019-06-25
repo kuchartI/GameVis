@@ -13,10 +13,10 @@ import android.widget.EditText;
 
 public class SignUpSignInActivity extends AppCompatActivity implements View.OnClickListener {
 
-     private DataBase dataBase;
-    EditText editText;
-    Button playBtn;
-    Boolean firstinBase = true;
+    private DataBase dataBase;
+    private EditText editText;
+    private Button playBtn;
+    private Boolean firstInBase = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,12 +28,15 @@ public class SignUpSignInActivity extends AppCompatActivity implements View.OnCl
         dataBase = new DataBase(this);
     }
 
+
+
     @Override
     public void onClick(View v) {
         String login = editText.getText().toString();
 
         SQLiteDatabase sqLiteDatabase = dataBase.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
+
         switch (v.getId()) {
             case R.id.inputLogin:
                 Cursor cursor =
@@ -46,14 +49,14 @@ public class SignUpSignInActivity extends AppCompatActivity implements View.OnCl
                                 cursor.getCount());
                         if (cursor.getString(cursor.getColumnIndex(DataBase.KEY_NAME)).equals(login)) {
                             Intent intent = new Intent(this, GameActivity.class);
-                            firstinBase = false;
-                            intent.putExtra("index",cursor.getString(cursor.getColumnIndex(DataBase.KEY_ID)) );
+                            firstInBase = false;
+                            intent.putExtra("index", cursor.getString(cursor.getColumnIndex(DataBase.KEY_ID)));
                             intent.putExtra("userName", login);
                             editText.setText("");
                             startActivity(intent);
                         }
                     } while (cursor.moveToNext());
-                    if (firstinBase) {
+                    if (firstInBase) {
                         contentValues.put(DataBase.KEY_NAME, login);
                         contentValues.put(DataBase.KEY_SCORE, "0");
                         sqLiteDatabase.insert(DataBase.TABLE_NAME, null, contentValues);
@@ -63,7 +66,7 @@ public class SignUpSignInActivity extends AppCompatActivity implements View.OnCl
                     contentValues.put(DataBase.KEY_SCORE, "0");
                     sqLiteDatabase.insert(DataBase.TABLE_NAME, null, contentValues);
                 }
-                firstinBase = true;
+                firstInBase = true;
                 cursor.close();
         }
         dataBase.close();
