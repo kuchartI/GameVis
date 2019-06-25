@@ -16,6 +16,8 @@ public class SignUpSignInActivity extends AppCompatActivity implements View.OnCl
     private DataBase dataBase;
     private EditText editText;
     private Button playBtn;
+    SQLiteDatabase sqLiteDatabase;
+    ContentValues contentValues;
     private Boolean firstInBase = true;
 
     @Override
@@ -28,14 +30,17 @@ public class SignUpSignInActivity extends AppCompatActivity implements View.OnCl
         dataBase = new DataBase(this);
     }
 
-
-
+    void helper(String login){
+        contentValues.put(DataBase.KEY_NAME, login);
+        contentValues.put(DataBase.KEY_SCORE, "0");
+        sqLiteDatabase.insert(DataBase.TABLE_NAME, null, contentValues);
+    }
     @Override
     public void onClick(View v) {
         String login = editText.getText().toString();
 
-        SQLiteDatabase sqLiteDatabase = dataBase.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
+        sqLiteDatabase = dataBase.getWritableDatabase();
+        contentValues = new ContentValues();
 
         switch (v.getId()) {
             case R.id.inputLogin:
@@ -57,14 +62,10 @@ public class SignUpSignInActivity extends AppCompatActivity implements View.OnCl
                         }
                     } while (cursor.moveToNext());
                     if (firstInBase) {
-                        contentValues.put(DataBase.KEY_NAME, login);
-                        contentValues.put(DataBase.KEY_SCORE, "0");
-                        sqLiteDatabase.insert(DataBase.TABLE_NAME, null, contentValues);
+                        helper(login);
                     }
                 } else {
-                    contentValues.put(DataBase.KEY_NAME, login);
-                    contentValues.put(DataBase.KEY_SCORE, "0");
-                    sqLiteDatabase.insert(DataBase.TABLE_NAME, null, contentValues);
+                    helper(login);
                 }
                 firstInBase = true;
                 cursor.close();

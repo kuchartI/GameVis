@@ -25,7 +25,9 @@ public class GameActivity extends AppCompatActivity {
     private boolean inputOrWords;
     private DataBase dataBase2;
     private Users users;
-    private String[] words;
+
+
+    private String[] words; //model
     private Random rand;
     private String inventedWord;
     private int userCounter;
@@ -54,13 +56,14 @@ public class GameActivity extends AppCompatActivity {
         String userName = getIntent().getStringExtra("userName");
         String userIndex = getIntent().getStringExtra("index");
         users = new Users(userName, userIndex);
+
         playGame();
     }
 
     private void playGame() {
         inventedWord = getIntent().getStringExtra("text");
-        String newWord = words[rand.nextInt(words.length)];
 
+        String newWord = words[rand.nextInt(words.length)];
         if (inventedWord == null) {
             while (newWord.equals(currWord))
                 newWord = words[rand.nextInt(words.length)];
@@ -91,12 +94,10 @@ public class GameActivity extends AppCompatActivity {
         currPart = 0;
         numChars = currWord.length();
         numCorr = 0;
-
         bodyParts = new ImageView[]{findViewById(R.id.head),
                 findViewById(R.id.body), findViewById(R.id.arm1),
                 findViewById(R.id.arm2), findViewById(R.id.leg1),
                 findViewById(R.id.leg2)};
-
         for (int p = 0; p < NUMPARTS; p++) {
             bodyParts[p].setVisibility(View.INVISIBLE);
         }
@@ -116,24 +117,23 @@ public class GameActivity extends AppCompatActivity {
             }
         }
         if (correct) {
-            SQLiteDatabase sqLiteDatabase = dataBase2.getWritableDatabase();
-            ContentValues contentValues = new ContentValues();
-            Cursor cursor =
-                    sqLiteDatabase.query(DataBase.TABLE_NAME, null, null, null, null, null, null);
-            cursor.moveToPosition(Integer.parseInt(users.getUserIndex()) - 1);
-            Log.d("ssssssssssssssss", "" + users.getUserIndex() +
-                    cursor.getString(cursor.getColumnIndex(DataBase.KEY_SCORE)));
-
             if (numCorr == numChars) {
-                userCounter =
-                        Integer.parseInt(cursor.getString(cursor.getColumnIndex(DataBase.KEY_SCORE)));
-                userCounter++;
-                contentValues.put(DataBase.KEY_NAME, users.getUserName());
-                contentValues.put(DataBase.KEY_SCORE, userCounter);
-                sqLiteDatabase.update(DataBase.TABLE_NAME, contentValues,
-                        DataBase.KEY_ID + "= ?", new String[]{users.getUserIndex()});
-                disableBtns();
-
+                if(users.getUserIndex()!=null) {
+                    SQLiteDatabase sqLiteDatabase = dataBase2.getWritableDatabase();
+                    ContentValues contentValues = new ContentValues();
+                    Cursor cursor =
+                            sqLiteDatabase.query(DataBase.TABLE_NAME, null, null, null, null, null, null);
+                    cursor.moveToPosition(Integer.parseInt(users.getUserIndex()) - 1);
+                    userCounter =
+                            Integer.parseInt(cursor.getString(cursor.getColumnIndex(DataBase.KEY_SCORE)));
+                    userCounter++;
+                    contentValues.put(DataBase.KEY_NAME, users.getUserName());
+                    contentValues.put(DataBase.KEY_SCORE, userCounter);
+                    sqLiteDatabase.update(DataBase.TABLE_NAME, contentValues,
+                            DataBase.KEY_ID + "= ?", new String[]{users.getUserIndex()});
+                    disableBtns();
+                    cursor.close();
+                }
                 AlertDialog.Builder winBuild = new AlertDialog.Builder(this);
                 winBuild.setTitle("Win!");
                 winBuild.setMessage("Ответ:\n\n" + currWord);
@@ -161,7 +161,7 @@ public class GameActivity extends AppCompatActivity {
 
                 winBuild.show();
             }
-            cursor.close();
+
         } else if (currPart < NUMPARTS) {
 
             bodyParts[currPart].setVisibility(View.VISIBLE);
