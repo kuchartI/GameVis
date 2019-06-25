@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.GridView;
@@ -22,17 +23,18 @@ import java.util.Random;
 
 public class GameActivity extends AppCompatActivity {
     private boolean inputOrWords;
-    private DataBase dataBase;
+    private DataBase dataBase2;
+    private Users users;
+
+
     private String[] words; //model
     private Random rand;
     private String inventedWord;
-    private String userName;
     private int userCounter;
     private String currWord;
     private LinearLayout wordLayout;
     private TextView[] charViews;
     private GridView letters;
-    private LetterAdapter ltrAdapt;
     private ImageView[] bodyParts;
     private final int NUMPARTS = 6;
     private int currPart;
@@ -46,16 +48,15 @@ public class GameActivity extends AppCompatActivity {
         Resources res = getResources();
         words = res.getStringArray(R.array.words);
         rand = new Random();
+
         wordLayout = findViewById(R.id.word);
         letters = findViewById(R.id.letters);
-        userName = getIntent().getStringExtra("userName");
-        bodyParts = new ImageView[NUMPARTS];
-        bodyParts[0] = findViewById(R.id.head);
-        bodyParts[1] = findViewById(R.id.body);
-        bodyParts[2] = findViewById(R.id.arm1);
-        bodyParts[3] = findViewById(R.id.arm2);
-        bodyParts[4] = findViewById(R.id.leg1);
-        bodyParts[5] = findViewById(R.id.leg2);
+
+        dataBase2 = new DataBase(this);
+        String userName = getIntent().getStringExtra("userName");
+        String userIndex = getIntent().getStringExtra("index");
+        users = new Users(userName, userIndex);
+
         playGame();
     }
 
@@ -63,7 +64,7 @@ public class GameActivity extends AppCompatActivity {
         inventedWord = getIntent().getStringExtra("text");
 
         String newWord = words[rand.nextInt(words.length)];
-        if (inventedWord == null ) {
+        if (inventedWord == null) {
             while (newWord.equals(currWord))
                 newWord = words[rand.nextInt(words.length)];
             inputOrWords = false;
@@ -88,16 +89,18 @@ public class GameActivity extends AppCompatActivity {
             wordLayout.addView(charViews[c]);
         }
 
-        ltrAdapt = new LetterAdapter(this);
+        LetterAdapter ltrAdapt = new LetterAdapter(this);
         letters.setAdapter(ltrAdapt);
         currPart = 0;
         numChars = currWord.length();
         numCorr = 0;
-
+        bodyParts = new ImageView[]{findViewById(R.id.head),
+                findViewById(R.id.body), findViewById(R.id.arm1),
+                findViewById(R.id.arm2), findViewById(R.id.leg1),
+                findViewById(R.id.leg2)};
         for (int p = 0; p < NUMPARTS; p++) {
             bodyParts[p].setVisibility(View.INVISIBLE);
         }
-
     }
 
     public void letterPressed(View view) {
@@ -115,14 +118,26 @@ public class GameActivity extends AppCompatActivity {
         }
         if (correct) {
 
+
             if (numCorr == numChars) {
-                SQLiteDatabase sqLiteDatabase = dataBase.getWritableDatabase();
-                ContentValues contentValues = new ContentValues();
-                Cursor cursor =
-                        sqLiteDatabase.query(DataBase.TABLE_NAME, null, null, null, null, null, null);
-                userCounter =
-                        Integer.parseInt(cursor.getString(cursor.getColumnIndex(DataBase.KEY_SCORE)));
-                disableBtns();
+                if (users.getUserIndex() != null) {
+                    SQLiteDatabase sqLiteDatabase = dataBase2.getWritableDatabase();
+                    ContentValues contentValues = new ContentValues();
+                    Cursor cursor =
+                            sqLiteDatabase.query(DataBase.TABLE_NAME, null, null, null, null, null, null);
+                    cursor.moveToPosition(Integer.parseInt(users.getUserIndex()) - 1);
+                    Log.d("ssssssssssssssss", "" + users.getUserIndex() +
+                            cursor.getString(cursor.getColumnIndex(DataBase.KEY_SCORE)));
+                    userCounter =
+                            Integer.parseInt(cursor.getString(cursor.getColumnIndex(DataBase.KEY_SCORE)));
+                    userCounter++;
+                    contentValues.put(DataBase.KEY_NAME, users.getUserName());
+                    contentValues.put(DataBase.KEY_SCORE, userCounter);
+                    sqLiteDatabase.update(DataBase.TABLE_NAME, contentValues,
+                            DataBase.KEY_ID + "= ?", new String[]{users.getUserIndex()});
+                    disableBtns();
+                    cursor.close();
+                }
 
                 AlertDialog.Builder winBuild = new AlertDialog.Builder(this);
                 winBuild.setTitle("Win!");
@@ -143,7 +158,7 @@ public class GameActivity extends AppCompatActivity {
                 winBuild.setNegativeButton("Выход",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                Intent intent = new Intent(GameActivity.this,MainActivity.class);
+                                Intent intent = new Intent(GameActivity.this, MainActivity.class);
                                 startActivity(intent);
                             }
                         }
@@ -151,6 +166,7 @@ public class GameActivity extends AppCompatActivity {
 
                 winBuild.show();
             }
+
         } else if (currPart < NUMPARTS) {
 
             bodyParts[currPart].setVisibility(View.VISIBLE);
@@ -176,7 +192,7 @@ public class GameActivity extends AppCompatActivity {
             loseBuild.setNegativeButton("Выход",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            Intent intent = new Intent(GameActivity.this,MainActivity.class);
+                            Intent intent = new Intent(GameActivity.this, MainActivity.class);
                             startActivity(intent);
                         }
                     });

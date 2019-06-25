@@ -13,10 +13,12 @@ import android.widget.EditText;
 
 public class SignUpSignInActivity extends AppCompatActivity implements View.OnClickListener {
 
-    DataBase dataBase;
-    EditText editText;
-    Button playBtn;
-    Boolean firstinBase = true;
+    private DataBase dataBase;
+    private EditText editText;
+    private Button playBtn;
+    SQLiteDatabase sqLiteDatabase;
+    ContentValues contentValues;
+    private Boolean firstInBase = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,12 +30,18 @@ public class SignUpSignInActivity extends AppCompatActivity implements View.OnCl
         dataBase = new DataBase(this);
     }
 
+    void helper(String login){
+        contentValues.put(DataBase.KEY_NAME, login);
+        contentValues.put(DataBase.KEY_SCORE, "0");
+        sqLiteDatabase.insert(DataBase.TABLE_NAME, null, contentValues);
+    }
     @Override
     public void onClick(View v) {
         String login = editText.getText().toString();
 
-        SQLiteDatabase sqLiteDatabase = dataBase.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
+        sqLiteDatabase = dataBase.getWritableDatabase();
+        contentValues = new ContentValues();
+
         switch (v.getId()) {
             case R.id.inputLogin:
                 Cursor cursor =
@@ -46,24 +54,20 @@ public class SignUpSignInActivity extends AppCompatActivity implements View.OnCl
                                 cursor.getCount());
                         if (cursor.getString(cursor.getColumnIndex(DataBase.KEY_NAME)).equals(login)) {
                             Intent intent = new Intent(this, GameActivity.class);
-                            firstinBase = false;
+                            firstInBase = false;
+                            intent.putExtra("index", cursor.getString(cursor.getColumnIndex(DataBase.KEY_ID)));
                             intent.putExtra("userName", login);
                             editText.setText("");
                             startActivity(intent);
                         }
                     } while (cursor.moveToNext());
-                    if (firstinBase) {
-                        contentValues.put(DataBase.KEY_NAME, login);
-                        contentValues.put(DataBase.KEY_SCORE, "0");
-                        sqLiteDatabase.insert(DataBase.TABLE_NAME, null, contentValues);
+                    if (firstInBase) {
+                        helper(login);
                     }
                 } else {
-                    contentValues.put(DataBase.KEY_NAME, login);
-                    contentValues.put(DataBase.KEY_SCORE, "0");
-                    sqLiteDatabase.insert(DataBase.TABLE_NAME, null, contentValues);
+                    helper(login);
                 }
-                firstinBase = true;
-                sqLiteDatabase.delete(DataBase.TABLE_NAME, null, null);
+                firstInBase = true;
                 cursor.close();
         }
         dataBase.close();
