@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         multiBtn.setOnClickListener(this);
         Button login = findViewById(R.id.login);
         login.setOnClickListener(this);
-        Button records = findViewById(R.id.login);
+        Button records = findViewById(R.id.records);
         records.setOnClickListener(this);
 
     }
