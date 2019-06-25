@@ -33,20 +33,20 @@
             android:textColor="#26FF00" />
 
         <Button
-            android:id="@+id/records"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/records"
-            android:textColor="#9C27B0" />
-
-        <Button
             android:id="@+id/login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/login"
             android:textColor="#26FF00" />
+
+        <Button
+            android:id="@+id/records"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/records"
+            android:textColor="#9C27B0" />
 
     </LinearLayout>
 
