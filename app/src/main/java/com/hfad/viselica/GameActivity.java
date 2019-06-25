@@ -117,13 +117,17 @@ public class GameActivity extends AppCompatActivity {
             }
         }
         if (correct) {
+
+
             if (numCorr == numChars) {
-                if(users.getUserIndex()!=null) {
+                if (users.getUserIndex() != null) {
                     SQLiteDatabase sqLiteDatabase = dataBase2.getWritableDatabase();
                     ContentValues contentValues = new ContentValues();
                     Cursor cursor =
                             sqLiteDatabase.query(DataBase.TABLE_NAME, null, null, null, null, null, null);
                     cursor.moveToPosition(Integer.parseInt(users.getUserIndex()) - 1);
+                    Log.d("ssssssssssssssss", "" + users.getUserIndex() +
+                            cursor.getString(cursor.getColumnIndex(DataBase.KEY_SCORE)));
                     userCounter =
                             Integer.parseInt(cursor.getString(cursor.getColumnIndex(DataBase.KEY_SCORE)));
                     userCounter++;
@@ -134,6 +138,7 @@ public class GameActivity extends AppCompatActivity {
                     disableBtns();
                     cursor.close();
                 }
+
                 AlertDialog.Builder winBuild = new AlertDialog.Builder(this);
                 winBuild.setTitle("Win!");
                 winBuild.setMessage("Ответ:\n\n" + currWord);
